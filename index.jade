@@ -1,0 +1,22 @@
+doctype html
+html(lang="en")
+
+head
+  link(rel="stylesheet" href="https://cdn.jsdelivr.net/flexboxgrid/6.3.0/flexboxgrid.min.css")
+  title Traffic Cams
+
+mixin image(filename)
+  .row.center-xs.center-sm.center-md.center-lg
+    .col-xs-1.col-sm-1.col-md-2.col-lg-3
+      .box
+        img(src="#{filename}")
+
+body
+  h1 Traffic Cam Images
+  br
+
+  - var n = 1
+  while n < 493
+    - var f = "GEN" + n + ".jpeg";
+    +image(f)
+    - n++
