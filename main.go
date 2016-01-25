@@ -109,21 +109,19 @@ func main() {
 	// timestamped directory to store images in
 	tsDir := MakeTimeStampDir(*parentDir)
 
-	// counting semaphore
-	sem := make(chan int, *concurrency)
-	// binary semaphore
+	workers := make(chan int, *concurrency)
 	done := make(chan bool)
 
 	for i := 1; i <= 500; i++ {
-		// increment counting semaphore (will block until space available)
-		sem <- 1
+		// increment counting semaphore (when full, will block until slot free)
+		workers <- 1
 
 		url := fmt.Sprintf(URLBase, i)
 		go func(URL, dir string) {
 			DownloadImage(URL, dir)
 
-			// decrement counting semaphore, freeing one spot in buffered channel
-			<-sem
+			// freeing one spot in workers (counting semaphore)
+			<-workers
 
 			// done after last download
 			if i == 500 {
