@@ -96,7 +96,7 @@ func MakeTimeStampDir(parentDir string) string {
 
 func main() {
 	flag.Usage = func() {
-		fmt.Fprintf(os.Stderr, "%s: Download Montreal Traffic Camera Images\n\n", os.Args[0])
+		fmt.Fprintf(os.Stderr, "%s: Download Montreal traffic camera images\n\n", os.Args[0])
 		flag.PrintDefaults()
 	}
 
