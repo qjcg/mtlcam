@@ -103,7 +103,7 @@ func main() {
 	}
 
 	concurrency := flag.Int("c", 10, "max concurrent downloads")
-	parentDir := flag.String("d", "mtlcam", "parent directory for downloaded files")
+	parentDir := flag.String("d", "images", "parent directory for downloaded files")
 	flag.Parse()
 
 	// timestamped directory to store images in
