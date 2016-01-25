@@ -20,6 +20,7 @@ import (
 const (
 	// See http://donnees.ville.montreal.qc.ca/dataset/cameras-observation-routiere
 	URLGeoJSON string = "http://ville.montreal.qc.ca/circulation/sites/ville.montreal.qc.ca.circulation/files/cameras-de-circulation.json"
+	URLAbout   string = "http://donnees.ville.montreal.qc.ca/dataset/cameras-observation-routiere"
 	URLBase    string = "http://www1.ville.montreal.qc.ca/Circulation-Cameras/GEN%03d.jpeg"
 )
 
@@ -96,7 +97,8 @@ func MakeTimeStampDir(parentDir string) string {
 
 func main() {
 	flag.Usage = func() {
-		fmt.Fprintf(os.Stderr, "%s: Download Montreal traffic camera images\n\n", os.Args[0])
+		fmt.Fprintf(os.Stderr, "%s: Download Montreal traffic camera images\n", os.Args[0])
+		fmt.Fprintf(os.Stderr, "Data from: %s\n\n", URLAbout)
 		flag.PrintDefaults()
 	}
 
