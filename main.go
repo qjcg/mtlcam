@@ -12,7 +12,6 @@ import (
 	"net/http"
 	"os"
 	"path"
-	"sync"
 	"time"
 
 	"github.com/fatih/color"
@@ -58,6 +57,9 @@ type TrafficCam struct {
 
 // Download image at URL to specified directory.
 func DownloadImage(URL string, dir string) {
+	defer log.Printf("%s %s\n", greenf("DONE"), URL)
+	log.Printf("%s %s\n", bluef("GET"), URL)
+
 	resp, err := http.Get(URL)
 	defer resp.Body.Close()
 
@@ -97,25 +99,36 @@ func main() {
 		fmt.Fprintf(os.Stderr, "%s: Download Montreal Traffic Camera Images\n\n", os.Args[0])
 		flag.PrintDefaults()
 	}
-	//concurrency := flag.Int("c", 10, "max download concurrency")
+
+	concurrency := flag.Int("c", 10, "max download concurrency")
 	parentDir := flag.String("d", "mtlcam", "parent directory for downloaded files")
 	flag.Parse()
 
 	// timestamped directory to store images in
 	tsDir := MakeTimeStampDir(*parentDir)
 
-	// FIXME: use a pool of workers based on concurrency flag value
-	var wg sync.WaitGroup
+	// counting semaphore
+	sem := make(chan int, *concurrency)
+	// binary semaphore
+	done := make(chan bool)
+
 	for i := 1; i <= 500; i++ {
-		wg.Add(1)
+		// increment counting semaphore (will block until space available)
+		sem <- 1
+
 		url := fmt.Sprintf(URLBase, i)
 		go func(URL, dir string) {
-			defer wg.Done()
-			defer log.Printf("%s %s\n", greenf("DONE"), URL)
-
-			log.Printf("%s %s\n", bluef("GET"), URL)
 			DownloadImage(URL, dir)
+
+			// decrement counting semaphore, freeing one spot in buffered channel
+			<-sem
+
+			// done after last download
+			if i == 500 {
+				done <- true
+			}
 		}(url, tsDir)
 	}
-	wg.Wait()
+
+	<-done
 }
