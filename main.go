@@ -97,9 +97,10 @@ func MakeTimeStampDir(parentDir string) string {
 
 func main() {
 	flag.Usage = func() {
-		fmt.Fprintf(os.Stderr, "%s: Download Montreal traffic camera images\n", os.Args[0])
-		fmt.Fprintf(os.Stderr, "Data from: %s\n\n", URLAbout)
+		fmt.Fprintf(os.Stderr, "\n%s: Download Montreal traffic camera images\n", os.Args[0])
+		fmt.Fprintf(os.Stderr, "Data source: %s\n\n", URLAbout)
 		flag.PrintDefaults()
+		fmt.Fprintf(os.Stderr, "\n")
 	}
 
 	concurrency := flag.Int("c", 10, "max concurrent downloads")
