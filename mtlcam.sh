@@ -6,10 +6,14 @@ URL_GEOJSON="http://ville.montreal.qc.ca/circulation/sites/ville.montreal.qc.ca.
 base_dir=${1:-images}
 full_dir="${base_dir}/$(date +'%y%m%d/%H%M%S')"
 cache="${base_dir}/cameras-de-circulation.json"
+cache_valid_minutes=1
 max_concurrency=${2:-90}
 
+# cache expired will store a filename if older than $cache_valid_minutes
+cache_expired=$(find -not -newermt "-${cache_valid_minutes} min" -name '*.json')
+
 mkdir -p $full_dir
-if [[ ! -r ${cache} ]]; then
+if [[ ! -r ${cache} || ${cache_expired} ]]; then
 	curl -s $URL_GEOJSON -o ${cache}
 fi
 
