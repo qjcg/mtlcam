@@ -30,32 +30,6 @@ var (
 	greenf = color.New(color.FgGreen, color.Bold).SprintFunc()
 )
 
-// TODO: Use GeoJSON data for downloading below rather than for-loop
-type TrafficCam struct {
-	Geometry struct {
-		Coordinates [2]float64
-		Type        string
-	}
-
-	Properties struct {
-		AxeRoutierEstOuest     string
-		AxeRoutierNordSud      string
-		Description            string
-		IdArrondissement       int
-		IdCamera               int
-		Nid                    int
-		Titre                  string
-		URL                    string
-		URLImageDirectionEst   string
-		URLImageDirectionNord  string
-		URLImageDirectionOuest string
-		URLImageDirectionSud   string
-		URLImageEnDirect       string
-	}
-
-	Type string
-}
-
 // Download image at URL to specified directory.
 func DownloadImage(URL string, dir string) {
 	defer log.Printf("%s %s\n", greenf("DONE"), URL)
