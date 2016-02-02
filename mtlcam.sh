@@ -3,7 +3,7 @@
 
 URL_GEOJSON="http://ville.montreal.qc.ca/circulation/sites/ville.montreal.qc.ca.circulation/files/cameras-de-circulation.json"
 
-base_dir=${1:-mtlcam}
+base_dir=${1:-images}
 full_dir="${base_dir}/$(date +'%y%m%d/%H%M%S')"
 cache="${base_dir}/cameras-de-circulation.json"
 max_concurrency=${2:-10}
