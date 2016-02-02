@@ -103,7 +103,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "\n")
 	}
 
-	concurrency := flag.Int("c", 10, "max concurrent downloads")
+	concurrency := flag.Int("c", 90, "max concurrent downloads")
 	parentDir := flag.String("d", "images", "parent directory for downloaded files")
 	flag.Parse()
 
