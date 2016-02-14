@@ -11,6 +11,8 @@ import (
 	"log"
 	"os"
 	"path"
+	"regexp"
+	"strconv"
 	"sync"
 	"time"
 
@@ -28,6 +30,8 @@ var (
 	// functions to colorize strings for use in sprintf-style functions
 	bluef  = color.New(color.FgBlue, color.Bold).SprintFunc()
 	greenf = color.New(color.FgGreen, color.Bold).SprintFunc()
+
+	reDigits = regexp.MustCompile(`\d+`)
 )
 
 // Create date/timestampped subdirectories for saving images
@@ -77,10 +81,15 @@ func main() {
 		workers <- 1
 		wg.Add(1)
 
-		imgFile := path.Base(imgURL)
-		if imgFile == "" {
+		imgFileServer := path.Base(imgURL)
+		if imgFileServer == "" {
 			log.Fatalf("Couldn't derive filename: %s\n", imgURL)
 		}
+		imgNum, err := strconv.Atoi(reDigits.FindString(imgFileServer))
+		if err != nil {
+			log.Printf("Error deriving image number: %s\n", err)
+		}
+		imgFile := fmt.Sprintf("%03d.jpg", imgNum)
 
 		go func(URL, file, dir string) {
 			defer wg.Done()
