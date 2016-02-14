@@ -9,10 +9,6 @@ import (
 
 // GET and return contents from URL.
 func download(URL string) []byte {
-	// TODO: make color printing optional
-	defer log.Printf("%s %s\n", greenf("DONE"), URL)
-	log.Printf("%s %s\n", bluef("GET"), URL)
-
 	resp, err := http.Get(URL)
 	defer resp.Body.Close()
 

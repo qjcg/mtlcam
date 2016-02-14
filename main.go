@@ -16,7 +16,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/fatih/color"
+	"github.com/sethgrid/multibar"
 )
 
 const (
@@ -27,10 +27,6 @@ const (
 )
 
 var (
-	// functions to colorize strings for use in sprintf-style functions
-	bluef  = color.New(color.FgBlue, color.Bold).SprintFunc()
-	greenf = color.New(color.FgGreen, color.Bold).SprintFunc()
-
 	reDigits = regexp.MustCompile(`\d+`)
 )
 
@@ -69,6 +65,16 @@ func main() {
 		log.Printf("Error unmarshalling GeoJSON data: %v\n", err)
 	}
 
+	// progress bar
+	bars, _ := multibar.New()
+	nImgs := len(fc.Features)
+	bar1 := bars.MakeBar(nImgs, "Completed Downloads")
+	go bars.Listen()
+
+	// FIXME: we are updating shared variable concurrently, use a channel
+	// ex: see http://play.golang.org/p/Uc9vlblxMA
+	nCompleted := 0
+
 	// wg waits for all downloads to complete
 	var wg sync.WaitGroup
 	for _, f := range fc.Features {
@@ -95,6 +101,11 @@ func main() {
 			defer wg.Done()
 			img := download(URL)
 			saveFile(img, file, dir)
+
+			// update progressbar
+			// FIXME (see nCompleted declaration above)
+			nCompleted++
+			bar1(nCompleted)
 
 			// when download finished, free one slot in workers
 			<-workers
