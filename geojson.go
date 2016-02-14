@@ -1,20 +1,20 @@
 package main
 
-// TODO: Use GeoJSON data to obtain image URLs
-type GeoJSONData struct {
+type FeatureCollection struct {
 	Features []struct {
 		Geometry struct {
-			Coordinates [2]float64
+			Coordinates [2]float64 `json:"coordinates,Number"`
 			Type        string
 		}
 
+		// NOTE: Always `"description": null` for city dataset
 		Properties struct {
 			AxeRoutierEstOuest     string `json:"axe-routier-est-ouest"`
 			AxeRoutierNordSud      string `json:"axe-routier-nord-sud"`
-			Description            string
-			IdArrondissement       int `json:"id-arrondissement"`
-			IdCamera               int `json:"id-camera"`
-			Nid                    int
+			Description            string `json:"description,omitempty"`
+			IdArrondissement       int    `json:"id-arrondissement,Number"`
+			IdCamera               int    `json:"id-camera,Number"`
+			Nid                    int    `json:"nid,Number"`
 			Titre                  string
 			URL                    string
 			URLImageDirectionEst   string `json:"url-image-direction-est"`
@@ -26,9 +26,6 @@ type GeoJSONData struct {
 
 		Type string
 	}
-	Type string
-}
 
-// TODO
-func DownloadGeoJSON(url string) {
+	Type string
 }

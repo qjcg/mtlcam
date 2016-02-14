@@ -5,13 +5,13 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"log"
-	"net/http"
 	"os"
 	"path"
+	"sync"
 	"time"
 
 	"github.com/fatih/color"
@@ -29,34 +29,6 @@ var (
 	bluef  = color.New(color.FgBlue, color.Bold).SprintFunc()
 	greenf = color.New(color.FgGreen, color.Bold).SprintFunc()
 )
-
-// Download image at URL to specified directory.
-func DownloadImage(URL string, dir string) {
-	defer log.Printf("%s %s\n", greenf("DONE"), URL)
-	log.Printf("%s %s\n", bluef("GET"), URL)
-
-	resp, err := http.Get(URL)
-	defer resp.Body.Close()
-
-	if err != nil {
-		log.Fatal("Couldn't GET image.")
-	}
-
-	contents, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatal("Couldn't read reesponse body.")
-	}
-
-	filename := path.Base(URL)
-	if filename == "" {
-		log.Fatalf("Couldn't derive filename for %s", URL)
-	}
-
-	err = ioutil.WriteFile(path.Join(dir, filename), contents, 0644)
-	if err != nil {
-		log.Fatal("Couldn't create file -- ", err)
-	}
-}
 
 // Create date/timestampped subdirectories for saving images
 func MakeTimeStampDir(parentDir string) string {
@@ -86,26 +58,39 @@ func main() {
 
 	// max number of workers (counting semaphore)
 	workers := make(chan int, *concurrency)
-	// when done, exit main function (binary semaphore)
-	done := make(chan bool)
 
-	for i := 1; i <= 500; i++ {
+	var fc FeatureCollection
+	geoJSON := download(URLGeoJSON)
+	if err := json.Unmarshal(geoJSON, &fc); err != nil {
+		log.Printf("Error unmarshalling GeoJSON data: %v\n", err)
+	}
+
+	// wg waits for all downloads to complete
+	var wg sync.WaitGroup
+	for _, f := range fc.Features {
+		imgURL := f.Properties.URLImageEnDirect
+		if imgURL == "" {
+			continue
+		}
+
 		// use one counting semaphore slot (when full, will block until slot free)
 		workers <- 1
+		wg.Add(1)
 
-		url := fmt.Sprintf(URLBase, i)
-		go func(URL, dir string) {
-			DownloadImage(URL, dir)
+		imgFile := path.Base(imgURL)
+		if imgFile == "" {
+			log.Fatalf("Couldn't derive filename: %s\n", imgURL)
+		}
+
+		go func(URL, file, dir string) {
+			defer wg.Done()
+			img := download(URL)
+			saveFile(img, file, dir)
 
 			// when download finished, free one slot in workers
 			<-workers
-
-			// done after last download
-			if i == 500 {
-				done <- true
-			}
-		}(url, tsDir)
+		}(imgURL, imgFile, tsDir)
 	}
 
-	<-done
+	wg.Wait()
 }
