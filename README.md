@@ -19,6 +19,11 @@ Data source: http://donnees.ville.montreal.qc.ca/dataset/cameras-observation-rou
   -d string
         parent directory for downloaded files (default "images")
 
+$ mtlcam
+[...]
+
+$ ls -R images
+[...]
 ```
 
 ## License
