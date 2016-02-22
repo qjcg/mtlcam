@@ -1,7 +1,4 @@
 // Download Montreal traffic camera images
-// Uses open data from the city of Montreal at:
-//   - http://donnees.ville.montreal.qc.ca/dataset/cameras-observation-routiere
-// See in action via city map application at @ http://ville.montreal.qc.ca/circulation/
 package main
 
 import (
