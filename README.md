@@ -1,6 +1,8 @@
-# mtlcam: Download Montreal traffic camera images
+# mtlcam
 
-Uses [open data from the City of Montreal](http://donnees.ville.montreal.qc.ca/dataset/cameras-observation-routiere).
+Pull down the latest Montreal traffic camera images using the [open GeoJSON
+data](http://donnees.ville.montreal.qc.ca/dataset/cameras-observation-routiere)
+provided by the City of Montreal.
 
 
 ## Install
