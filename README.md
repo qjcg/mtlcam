@@ -20,3 +20,7 @@ Data source: http://donnees.ville.montreal.qc.ca/dataset/cameras-observation-rou
         parent directory for downloaded files (default "images")
 
 ```
+
+## License
+
+MIT.
