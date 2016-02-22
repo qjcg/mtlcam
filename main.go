@@ -23,7 +23,6 @@ const (
 	// See http://donnees.ville.montreal.qc.ca/dataset/cameras-observation-routiere
 	URLGeoJSON string = "http://ville.montreal.qc.ca/circulation/sites/ville.montreal.qc.ca.circulation/files/cameras-de-circulation.json"
 	URLAbout   string = "http://donnees.ville.montreal.qc.ca/dataset/cameras-observation-routiere"
-	URLBase    string = "http://www1.ville.montreal.qc.ca/Circulation-Cameras/GEN%03d.jpeg"
 )
 
 var (
