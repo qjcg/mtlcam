@@ -57,7 +57,13 @@ func main() {
 	concurrency := flag.Int("c", 90, "max concurrent downloads")
 	debug := flag.Bool("d", false, "print debug messages")
 	parentDir := flag.String("p", "images", "parent directory for downloaded files")
+	version := flag.Bool("v", false, "print version")
 	flag.Parse()
+
+	if *version {
+		fmt.Printf("%s v%s\n", os.Args[0], Version)
+		os.Exit(0)
+	}
 
 	if *debug {
 		initLoggers(os.Stdout, os.Stderr)
