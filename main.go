@@ -80,7 +80,7 @@ func main() {
 	// progress bar
 	bars, _ := multibar.New()
 	nImgs := len(fc.Features)
-	bar1 := bars.MakeBar(nImgs, "Completed Downloads")
+	bar1 := bars.MakeBar(nImgs, "Downloaded")
 	go bars.Listen()
 
 	// FIXME: we are updating shared variable concurrently, use a channel
