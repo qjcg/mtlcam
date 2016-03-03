@@ -2,7 +2,6 @@ package main
 
 import (
 	"io/ioutil"
-	"log"
 	"net/http"
 	"path"
 )
@@ -13,12 +12,12 @@ func download(URL string) []byte {
 	defer resp.Body.Close()
 
 	if err != nil {
-		log.Fatal("Couldn't GET file.")
+		Error.Fatal("Couldn't GET file.")
 	}
 
 	contents, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatal("Couldn't read reesponse body.")
+		Error.Fatal("Couldn't read reesponse body.")
 	}
 
 	return contents
@@ -28,6 +27,6 @@ func download(URL string) []byte {
 func saveFile(data []byte, filename, dir string) {
 	err := ioutil.WriteFile(path.Join(dir, filename), data, 0644)
 	if err != nil {
-		log.Fatal("Couldn't create file -- ", err)
+		Error.Fatal("Couldn't create file -- ", err)
 	}
 }

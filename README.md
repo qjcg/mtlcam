@@ -22,7 +22,8 @@ Data source: http://donnees.ville.montreal.qc.ca/dataset/cameras-observation-rou
 
   -c int
         max concurrent downloads (default 90)
-  -d string
+  -d    print debug messages
+  -p string
         parent directory for downloaded files (default "images")
 
 $ mtlcam
