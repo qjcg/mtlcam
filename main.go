@@ -15,7 +15,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/sethgrid/multibar"
+	"github.com/gosuri/uiprogress"
 )
 
 const (
@@ -78,14 +78,11 @@ func main() {
 	}
 
 	// progress bar
-	bars, _ := multibar.New()
 	nImgs := len(fc.Features)
-	bar1 := bars.MakeBar(nImgs, "Downloaded")
-	go bars.Listen()
-
-	// FIXME: we are updating shared variable concurrently, use a channel
-	// ex: see http://play.golang.org/p/Uc9vlblxMA
-	nCompleted := 0
+	uiprogress.Start()
+	bar := uiprogress.AddBar(nImgs)
+	bar.AppendCompleted()
+	bar.PrependElapsed()
 
 	// wg waits for all downloads to complete
 	var wg sync.WaitGroup
@@ -113,11 +110,7 @@ func main() {
 			defer wg.Done()
 			img := download(URL)
 			saveFile(img, file, dir)
-
-			// update progressbar
-			// FIXME (see nCompleted declaration above)
-			nCompleted++
-			bar1(nCompleted)
+			bar.Incr()
 
 			// when download finished, free one slot in workers
 			<-workers
