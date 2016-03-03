@@ -80,7 +80,7 @@ func main() {
 	// progress bar
 	nImgs := len(fc.Features)
 	uiprogress.Start()
-	bar := uiprogress.AddBar(nImgs)
+	bar := uiprogress.AddBar(nImgs - 1)
 	bar.AppendCompleted()
 	bar.PrependElapsed()
 
