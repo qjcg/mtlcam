@@ -21,7 +21,7 @@ mtlcam: Download Montreal traffic camera images
 Data source: http://donnees.ville.montreal.qc.ca/dataset/cameras-observation-routiere
 
   -c int
-        max concurrent downloads (default 90)
+        max concurrent downloads (default 20)
   -d    print debug messages
   -p string
         parent directory for downloaded files (default "images")
