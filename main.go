@@ -5,9 +5,6 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"io"
-	"io/ioutil"
-	"log"
 	"os"
 	"path"
 	"regexp"
@@ -16,6 +13,7 @@ import (
 	"time"
 
 	"github.com/gosuri/uiprogress"
+	log "github.com/sirupsen/logrus"
 )
 
 const (
@@ -24,23 +22,14 @@ const (
 	URLAbout   string = "http://donnees.ville.montreal.qc.ca/dataset/cameras-observation-routiere"
 )
 
-var (
-	reDigits = regexp.MustCompile(`\d+`)
-	Debug    *log.Logger
-	Error    *log.Logger
-)
-
-func initLoggers(debugHandle, errorHandle io.Writer) {
-	Debug = log.New(debugHandle, "DEBUG: ", log.Ldate|log.Ltime|log.Lshortfile)
-	Error = log.New(errorHandle, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile)
-}
+var reDigits = regexp.MustCompile(`\d+`)
 
 // Create date/timestampped subdirectories for saving images
 func MakeTimeStampDir(parentDir string) string {
 	timeStampDir := time.Now().Format(path.Join(parentDir, "060102/150405"))
 	err := os.MkdirAll(timeStampDir, 0755)
 	if err != nil {
-		Error.Fatalf("Couldn't create image directory: %s\n", err)
+		log.Fatalf("Couldn't create image directory: %s\n", err)
 	}
 
 	return timeStampDir
@@ -66,9 +55,7 @@ func main() {
 	}
 
 	if *debug {
-		initLoggers(os.Stdout, os.Stderr)
-	} else {
-		initLoggers(ioutil.Discard, os.Stderr)
+		log.SetLevel(log.DebugLevel)
 	}
 
 	// timestamped directory to store images in
@@ -80,7 +67,7 @@ func main() {
 	var fc FeatureCollection
 	geoJSON := download(URLGeoJSON)
 	if err := json.Unmarshal(geoJSON, &fc); err != nil {
-		Debug.Printf("Error unmarshalling GeoJSON data: %v\n", err)
+		log.Errorf("Error unmarshalling GeoJSON data: %v\n", err)
 	}
 
 	// progress bar
@@ -104,11 +91,11 @@ func main() {
 
 		imgFileServer := path.Base(imgURL)
 		if imgFileServer == "" {
-			Error.Fatalf("Couldn't derive filename: %s\n", imgURL)
+			log.Fatalf("Couldn't derive filename: %s\n", imgURL)
 		}
 		imgNum, err := strconv.Atoi(reDigits.FindString(imgFileServer))
 		if err != nil {
-			Error.Printf("Error deriving image number: %s\n", err)
+			log.Errorf("Error deriving image number: %s\n", err)
 		}
 		imgFile := fmt.Sprintf("%03d.jpg", imgNum)
 

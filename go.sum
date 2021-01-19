@@ -1,8 +1,15 @@
+github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/gosuri/uilive v0.0.0-20170323041506-ac356e6e42cd h1:1e+0Z+T4t1mKL5xxvxXh5FkjuiToQGKreCobLu7lR3Y=
 github.com/gosuri/uilive v0.0.0-20170323041506-ac356e6e42cd/go.mod h1:qkLSc0A5EXSP6B04TrN4oQoxqFI7A8XvoXSlJi8cwk8=
 github.com/gosuri/uiprogress v0.0.0-20170224063937-d0567a9d84a1 h1:4iPLwzjiWGBQnYdtKbg/JNlGlEEvklrrMdjypdA1LKQ=
 github.com/gosuri/uiprogress v0.0.0-20170224063937-d0567a9d84a1/go.mod h1:C1RTYn4Sc7iEyf6j8ft5dyoZ4212h8G1ol9QQluh5+0=
 github.com/mattn/go-isatty v0.0.4 h1:bnP0vzxcAdeI1zdubAl5PjU6zsERjGZb7raWodagDYs=
 github.com/mattn/go-isatty v0.0.4/go.mod h1:M+lRXTBqGeGNdLjl/ufCoiOlB5xdOkqRJdNxMWT7Zi4=
+github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
+github.com/sirupsen/logrus v1.7.0 h1:ShrD1U9pZB12TX0cVy0DtePoCH97K8EtX+mg7ZARUtM=
+github.com/sirupsen/logrus v1.7.0/go.mod h1:yWOB1SBYBC5VeMP7gHvWumXLIWorT60ONWic61uBYv0=
+github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=
 golang.org/x/sys v0.0.0-20181228144115-9a3f9b0469bb h1:pf3XwC90UUdNPYWZdFjhGBE7DUFuK3Ct1zWmZ65QN30=
 golang.org/x/sys v0.0.0-20181228144115-9a3f9b0469bb/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
+golang.org/x/sys v0.0.0-20191026070338-33540a1f6037 h1:YyJpGZS1sBuBCzLAR1VEpK193GlqGZbnPFnPV/5Rsb4=
+golang.org/x/sys v0.0.0-20191026070338-33540a1f6037/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=

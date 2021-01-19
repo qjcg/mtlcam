@@ -4,6 +4,8 @@ import (
 	"io/ioutil"
 	"net/http"
 	"path"
+
+	log "github.com/sirupsen/logrus"
 )
 
 // GET and return contents from URL.
@@ -12,12 +14,12 @@ func download(URL string) []byte {
 	defer resp.Body.Close()
 
 	if err != nil {
-		Error.Fatal("Couldn't GET file.")
+		log.Fatal("Couldn't GET file.")
 	}
 
 	contents, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		Error.Fatal("Couldn't read reesponse body.")
+		log.Fatal("Couldn't read reesponse body.")
 	}
 
 	return contents
@@ -27,6 +29,6 @@ func download(URL string) []byte {
 func saveFile(data []byte, filename, dir string) {
 	err := ioutil.WriteFile(path.Join(dir, filename), data, 0644)
 	if err != nil {
-		Error.Fatal("Couldn't create file -- ", err)
+		log.Fatal("Couldn't create file -- ", err)
 	}
 }
