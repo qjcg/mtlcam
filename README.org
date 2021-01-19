@@ -1,0 +1,38 @@
+* mtlcam
+
+Pull down the latest Montreal traffic camera images using the [[https://donnees.ville.montreal.qc.ca/dataset/cameras-observation-routiere][open
+GeoJSON data]] provided by the City of Montreal.
+
+
+** Install
+
+#+begin_src shell
+go get -u github.com/qjcg/mtlcam
+#+end_src
+
+
+** Usage
+
+#+begin_src shell
+$ mtlcam -h
+
+mtlcam: Download Montreal traffic camera images
+Data source: https://donnees.ville.montreal.qc.ca/dataset/cameras-observation-routiere
+
+  -c int
+        max concurrent downloads (default 20)
+  -d    print debug messages
+  -p string
+        parent directory for downloaded files (default "images")
+  -v    print version
+
+$ mtlcam
+[...]
+
+$ ls -R images
+[...]
+#+end_src
+
+** License
+
+MIT
