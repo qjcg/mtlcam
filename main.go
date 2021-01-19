@@ -17,9 +17,8 @@ import (
 )
 
 const (
-	// See http://donnees.ville.montreal.qc.ca/dataset/cameras-observation-routiere
-	URLGeoJSON string = "http://ville.montreal.qc.ca/circulation/sites/ville.montreal.qc.ca.circulation/files/cameras-de-circulation.json"
-	URLAbout   string = "http://donnees.ville.montreal.qc.ca/dataset/cameras-observation-routiere"
+	URLGeoJSON string = "https://ville.montreal.qc.ca/circulation/sites/ville.montreal.qc.ca.circulation/files/cameras-de-circulation.json"
+	URLAbout   string = "https://donnees.ville.montreal.qc.ca/dataset/cameras-observation-routiere"
 )
 
 var reDigits = regexp.MustCompile(`\d+`)
