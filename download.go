@@ -1,33 +1,30 @@
 package main
 
 import (
-	"io/ioutil"
-	"net/http"
+	"log"
+	"os"
 	"path"
 
-	log "github.com/sirupsen/logrus"
+	"github.com/gocolly/colly/v2"
 )
 
 // GET and return contents from URL.
-func download(URL string) []byte {
-	resp, err := http.Get(URL)
-	defer resp.Body.Close()
+func download(URL string) {
+	c := colly.NewCollector()
 
+	c.OnHTML("a[href]", func(e *colly.HTMLElement) {
+		log.Println(e.Attr("href"))
+	})
+
+	err := c.Visit(URL)
 	if err != nil {
-		log.Fatal("Couldn't GET file.")
+		log.Fatal(err)
 	}
-
-	contents, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatal("Couldn't read reesponse body.")
-	}
-
-	return contents
 }
 
 // Write slice of bytes to disk.
 func saveFile(data []byte, filename, dir string) {
-	err := ioutil.WriteFile(path.Join(dir, filename), data, 0644)
+	err := os.WriteFile(path.Join(dir, filename), data, 0o644)
 	if err != nil {
 		log.Fatal("Couldn't create file -- ", err)
 	}
