@@ -1,0 +1,9 @@
+LET base_url = "https://www.quebec511.info"
+LET overview_page = DOCUMENT("https://www.quebec511.info/en/Diffusion/EtatReseau/Camera.aspx?Type=1&Id=11000")
+
+FOR img IN ELEMENTS(overview_page, '#imgPrincipal')
+    LET url = ATTR_GET(img, "src").src
+    LET full_url =  CONCAT(base_url, url)
+
+    RETURN full_url
+
